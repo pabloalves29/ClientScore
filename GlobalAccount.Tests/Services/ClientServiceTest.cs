@@ -3,6 +3,7 @@ using GlobalAccount.Application.Services;
 using GlobalAccount.Domain.Enums;
 using GlobalAccount.Domain.Models;
 using GlobalAccount.Infra.Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -11,12 +12,14 @@ namespace GlobalAccount.Tests.Services;
 public class ClientServiceTest
 {
     private readonly Mock<IClientRepository> _mockRepo;
+    private readonly Mock<ILogger<ClientService>> _mockLogger;
     private readonly ClientService _service;
 
     public ClientServiceTest()
     {
         _mockRepo = new Mock<IClientRepository>();
-        _service = new ClientService(_mockRepo.Object);
+        _mockLogger = new Mock<ILogger<ClientService>>();
+        _service = new ClientService(_mockRepo.Object, _mockLogger.Object);
     }
 
     #region Insert

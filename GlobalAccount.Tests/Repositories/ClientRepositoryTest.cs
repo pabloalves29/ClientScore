@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GlobalAccount.Domain.Enums;
 using GlobalAccount.Domain.Models;
 using GlobalAccount.Infra.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 
 namespace GlobalAccount.Tests.Repositories;
@@ -13,6 +14,7 @@ namespace GlobalAccount.Tests.Repositories;
 public class ClientRepositoryTests
 {
     private readonly ClientRepository _repository;
+    private readonly Mock<ILogger<ClientRepository>> _loggerMock;
     private const string CpfTeste = "22233344455";
 
     public ClientRepositoryTests()
@@ -21,12 +23,17 @@ public class ClientRepositoryTests
             .AddJsonFile("appsettings.Test.json")
             .Build();
 
-        _repository = new ClientRepository(configuration);
+        _loggerMock = new Mock<ILogger<ClientRepository>>();
+        _repository = new ClientRepository(configuration, _loggerMock.Object);
     }
 
     private async Task LimparCliente()
     {
-        await _repository.DeleteAsync(CpfTeste);
+        try
+        {
+            await _repository.DeleteAsync(CpfTeste);
+        }
+        catch { /* silencioso para garantir isolamento dos testes */ }
     }
 
     private Client CriarClienteBase(string nome = "Cliente Teste", decimal rendimento = 80000)
@@ -135,7 +142,8 @@ public class ClientRepositoryTests
     {
         await LimparCliente(); // Garantir que cliente não existe
         var ex = await Record.ExceptionAsync(() => _repository.DeleteAsync(CpfTeste));
-        Assert.Null(ex); // não lança exceção
+        Assert.NotNull(ex); // agora lança InvalidOperationException
+        Assert.Contains("Não foi localizado nenhum cliente", ex.Message);
     }
 
     [Fact]

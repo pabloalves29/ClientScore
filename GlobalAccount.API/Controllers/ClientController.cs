@@ -2,117 +2,135 @@
 using GlobalAccount.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace GlobalAccount.API.Controllers
+namespace GlobalAccount.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ClientController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ClientController : ControllerBase
+    private readonly IClientService _clientService;
+    private readonly ILogger<ClientController> _logger;
+
+    public ClientController(IClientService clientService, ILogger<ClientController> logger)
     {
-        private readonly IClientService _clientService;
+        _clientService = clientService;
+        _logger = logger;
+    }
 
-        public ClientController(IClientService clientService)
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Insert([FromBody] ClientRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
         {
-            _clientService = clientService;
+            _logger.LogInformation("Iniciando cadastro do cliente CPF: {Cpf}", request.Cpf);
+
+            var resultado = await _clientService.InsertClientAsync(request);
+
+            _logger.LogInformation("Cliente CPF: {Cpf} cadastrado com sucesso", request.Cpf);
+            return Ok(resultado); // 200
         }
-
-        /// <summary>
-        /// Cadastra um novo cliente e retorna o score e a classificação.
-        /// </summary>
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Insert([FromBody] ClientRequest request)
+        catch (Exception ex)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var resultado = await _clientService.InsertClientAsync(request);
-                return Ok(resultado);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = "Erro ao processar requisição.", detalhes = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Atualiza um cliente existente.
-        /// </summary>
-        [HttpPut]
-        [Authorize]
-        public async Task<IActionResult> Update([FromBody] ClientRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                await _clientService.UpdateClientAsync(request);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = "Erro ao atualizar cliente.", detalhes = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Retorna os dados de um cliente com base no CPF.
-        /// </summary>
-        [HttpGet("/{cpf}")]
-        [Authorize]
-        public async Task<IActionResult> FindByCPF(string cpf)
-        {
-            try
-            {
-                var resultado = await _clientService.GetClientByCpfAsync(cpf);
-                if (resultado == null)
-                    return NotFound();
-
-                return Ok(resultado);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = "Erro ao buscar cliente.", detalhes = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Lista todos os clientes cadastrados.
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> ListAll()
-        {
-            try
-            {
-                var lista = await _clientService.ListAllClientsAsync();
-                return Ok(lista);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = "Erro ao listar clientes.", detalhes = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Exclui um cliente com base no CPF.
-        /// </summary>
-        [HttpDelete("{cpf}")]
-        [Authorize]
-        public async Task<IActionResult> Delete(string cpf)
-        {
-            try
-            {
-                await _clientService.DeleteClientAsync(cpf);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = "Erro ao excluir cliente.", detalhes = ex.Message });
-            }
+            _logger.LogError(ex, "Erro ao cadastrar cliente CPF: {Cpf}", request.Cpf);
+            return StatusCode(500, new { erro = "Erro ao processar requisição.", detalhes = ex.Message });
         }
     }
+
+    [HttpPut]
+    [Authorize]
+    public async Task<IActionResult> Update([FromBody] ClientRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
+        {
+            _logger.LogInformation("Atualizando cliente CPF: {Cpf}", request.Cpf);
+            await _clientService.UpdateClientAsync(request);
+            _logger.LogInformation("Cliente CPF: {Cpf} atualizado com sucesso", request.Cpf);
+
+            return Ok(new { mensagem = $"Cliente CPF {request.Cpf} atualizado com sucesso." });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao atualizar cliente CPF: {Cpf}", request.Cpf);
+            return StatusCode(500, new { erro = "Erro ao atualizar cliente.", detalhes = ex.Message });
+        }
+    }
+
+
+    [HttpGet("{cpf}")]
+    [Authorize]
+    public async Task<IActionResult> FindByCPF(string cpf)
+    {
+        try
+        {
+            _logger.LogInformation("Buscando cliente por CPF: {Cpf}", cpf);
+            var resultado = await _clientService.GetClientByCpfAsync(cpf);
+
+            if (resultado == null)
+            {
+                _logger.LogWarning("Cliente CPF: {Cpf} não encontrado", cpf);
+                return NotFound(); // 404
+            }
+
+            _logger.LogInformation("Cliente CPF: {Cpf} encontrado com sucesso", cpf);
+            return Ok(resultado); // 200
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao buscar cliente CPF: {Cpf}", cpf);
+            return StatusCode(500, new { erro = "Erro ao buscar cliente.", detalhes = ex.Message });
+        }
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> ListAll()
+    {
+        try
+        {
+            _logger.LogInformation("Listando todos os clientes");
+            var lista = await _clientService.ListAllClientsAsync();
+
+            _logger.LogInformation("Listagem de clientes concluída. Total: {Quantidade}", lista.Count);
+            return Ok(lista); // 200
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao listar clientes");
+            return StatusCode(500, new { erro = "Erro ao listar clientes.", detalhes = ex.Message });
+        }
+    }
+
+    [HttpDelete("{cpf}")]
+    [Authorize]
+    public async Task<IActionResult> Delete(string cpf)
+    {
+        try
+        {
+            _logger.LogInformation("Excluindo cliente CPF: {Cpf}", cpf);
+            await _clientService.DeleteClientAsync(cpf);
+            _logger.LogInformation("Cliente CPF: {Cpf} excluído com sucesso", cpf);
+
+            return Ok(new { mensagem = $"Cliente CPF {cpf} excluído com sucesso." });
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogWarning(ex, "CPF não encontrado: {Cpf}", cpf);
+            return NotFound(new { erro = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao excluir cliente CPF: {Cpf}", cpf);
+            return StatusCode(500, new { erro = "Erro ao excluir cliente.", detalhes = ex.Message });
+        }
+    }
+
 }
