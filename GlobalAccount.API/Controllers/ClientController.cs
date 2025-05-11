@@ -61,7 +61,7 @@ namespace GlobalAccount.API.Controllers
         /// <summary>
         /// Retorna os dados de um cliente com base no CPF.
         /// </summary>
-        [HttpGet("/{cpf}")]
+        [HttpGet("{cpf}")]
         [Authorize]
         public async Task<IActionResult> FindByCPF(string cpf)
         {
