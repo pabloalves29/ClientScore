@@ -22,11 +22,16 @@ namespace GlobalAccount.API.Controllers
         [HttpPost("token")]
         public IActionResult GenerateToken([FromBody] AuthRequest request)
         {
-            // Aqui não há autenticação real, apenas geração do token.
-            if (string.IsNullOrWhiteSpace(request.Email))
-                return BadRequest("E-mail é obrigatório.");
+            if (string.IsNullOrWhiteSpace(request.Username))
+                return BadRequest("Usuário é obrigatório.");
 
-            var token = _tokenService.GenerateToken(request.Email);
+            if (string.IsNullOrWhiteSpace(request.Password))
+                return BadRequest("Senha é obrigatória.");
+
+            var token = _tokenService.GenerateToken(request.Username, request.Password);
+
+            if (token == null)
+                return Unauthorized("Credenciais inválidas.");
 
             return Ok(new { token });
         }

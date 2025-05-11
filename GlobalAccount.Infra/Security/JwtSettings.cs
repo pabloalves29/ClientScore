@@ -12,5 +12,7 @@ namespace GlobalAccount.Infra.Security
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public int ExpireMinutes { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
