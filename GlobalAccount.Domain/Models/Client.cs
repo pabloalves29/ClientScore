@@ -9,21 +9,21 @@ public class Client
     public string Cpf { get; private set; }
     public string Email { get; private set; }
     public decimal RendimentoAnual { get; private set; }
-    public string Estado { get; private set; }
-    public string Telefone { get; private set; }
+    public string Endereco { get; private set; } 
+    public string Telefone { get; private set; }  
 
     public int Score { get; private set; }
     public ScoreClassificacao Classificacao { get; private set; }
 
     public Client(string nome, DateTime dataNascimento, string cpf, string email, decimal rendimentoAnual, 
-        string estado, string telefone)
+        string endereco, string telefone)
     {
         Nome = nome;
         DataNascimento = dataNascimento;
         Cpf = cpf;
         Email = email;
         RendimentoAnual = rendimentoAnual;
-        Estado = estado;
+        Endereco = endereco;
         Telefone = telefone;
 
         CalcularScoreEClassificacao();

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS Clientes (
     Cpf CHAR(11) NOT NULL UNIQUE,
     Email VARCHAR(150) NOT NULL,
     RendimentoAnual DECIMAL(15,2) NOT NULL,
-    Estado CHAR(2) NOT NULL,
+    Endereco VARCHAR(255) NOT NULL,
     Telefone VARCHAR(15) NOT NULL,
     Score INT NOT NULL,
     Classificacao VARCHAR(50) NOT NULL,

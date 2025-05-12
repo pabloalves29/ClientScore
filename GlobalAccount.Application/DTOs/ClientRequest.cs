@@ -33,8 +33,8 @@ namespace GlobalAccount.Application.DTOs
         public decimal RendimentoAnual { get; set; }
 
         [Required]
-        [StringLength(2, ErrorMessage = "Estado deve conter exatamente 2 letras.")]
-        public string Estado { get; set; }
+        [EnderecoValidation]
+        public string Endereco { get; set; }
 
         [Required]
         [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Telefone deve conter DDD e número (10 ou 11 dígitos).")]

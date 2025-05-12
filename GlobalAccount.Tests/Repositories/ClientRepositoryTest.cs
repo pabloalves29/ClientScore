@@ -44,7 +44,7 @@ public class ClientRepositoryTests
             cpf: CpfTeste,
             email: "cliente@email.com",
             rendimentoAnual: rendimento,
-            estado: "SP",
+            endereco: "SP",
             telefone: "11999999999"
         );
     }
@@ -190,7 +190,7 @@ public class ClientRepositoryTests
         var cliente = await _repository.GetByCpfAsync(CpfTeste);
         Assert.Equal("Mapeado", cliente.Nome);
         Assert.Equal("cliente@email.com", cliente.Email);
-        Assert.Equal("SP", cliente.Estado);
+        Assert.Equal("SP", cliente.Endereco);
     }
 
     #endregion

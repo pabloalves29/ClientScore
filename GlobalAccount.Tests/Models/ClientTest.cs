@@ -15,7 +15,7 @@ public class ClientTest
             cpf: "12345678901",
             email: "joana@email.com",
             rendimentoAnual: 150000,
-            estado: "SP",
+            endereco: "Rua das Flores, 123 - São Paulo SP",
             telefone: "11999999999"
         );
 
@@ -32,7 +32,7 @@ public class ClientTest
             cpf: "98765432100",
             email: "lucas@email.com",
             rendimentoAnual: 90000,
-            estado: "RJ",
+            endereco: "Av. Copacabana, 500 - Rio de Janeiro RJ",
             telefone: "21999999999"
         );
 
@@ -49,7 +49,7 @@ public class ClientTest
             cpf: "11122233344",
             email: "carla@email.com",
             rendimentoAnual: 40000,
-            estado: "MG",
+            endereco: "Rua A, 100 - Belo Horizonte MG",
             telefone: "31999999999"
         );
 
@@ -67,7 +67,7 @@ public class ClientTest
             cpf: "44455566677",
             email: "pedro@email.com",
             rendimentoAnual: 80000,
-            estado: "PR",
+            endereco: "Rua Central, 250 - Curitiba PR",
             telefone: "41999999999"
         );
 
@@ -75,7 +75,7 @@ public class ClientTest
         Assert.Equal(nascimento, client.DataNascimento);
         Assert.Equal("44455566677", client.Cpf);
         Assert.Equal("pedro@email.com", client.Email);
-        Assert.Equal("PR", client.Estado);
+        Assert.Equal("Rua Central, 250 - Curitiba PR", client.Endereco);
         Assert.Equal("41999999999", client.Telefone);
     }
 
@@ -88,7 +88,7 @@ public class ClientTest
             cpf: "88899977766",
             email: "ana@email.com",
             rendimentoAnual: 120001, // 300 pontos
-            estado: "RS",
+            endereco: "Rua Dom Pedro II, 999 - Porto Alegre RS",
             telefone: "51999999999"
         );
 

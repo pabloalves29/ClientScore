@@ -29,14 +29,14 @@ CREATE TABLE `clientes` (
   `Cpf` char(11) NOT NULL,
   `Email` varchar(150) NOT NULL,
   `RendimentoAnual` decimal(15,2) NOT NULL,
-  `Estado` char(2) NOT NULL,
+  `Endereco` varchar(255) NOT NULL,
   `Telefone` varchar(15) NOT NULL,
   `Score` int NOT NULL,
   `Classificacao` varchar(50) NOT NULL,
   `DataCadastro` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Cpf` (`Cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Camila Andrade','1992-04-10','12345678901','camila.andrade@email.com',85000.00,'SP','11988887777',350,'Cliente Regular','2025-05-10 21:11:46'),(2,'Pablo Alves','2000-03-01','49796868857','teste@gmail.com',10000.00,'SP','13997332255',250,'Mau Cliente','2025-05-10 22:28:23'),(36,'Joana Ribeiro','1970-07-15','20607881020','joana.ribeiro@email.com',150000.00,'RJ','21988887777',500,'Bom Cliente','2025-05-11 05:25:07'),(37,'Carlos Tavares','1985-02-20','59849431075','carlos.tavares@email.com',130000.00,'MG','31977776666',450,'Bom Cliente','2025-05-11 05:25:32'),(38,'Ana Costa','1990-06-10','12170104089','ana.costa@email.com',90000.00,'SP','11966665555',350,'Cliente Regular','2025-05-11 05:26:09'),(39,'Diego Matos','2003-11-05','89463330062','diego.matos@email.com',130000.00,'RS','51944443333',350,'Cliente Regular','2025-05-11 05:26:26'),(40,'Julia Mendes','2005-12-25','16770166046','julia.mendes@email.com',30000.00,'PR','41922221111',150,'Mau Cliente','2025-05-11 05:26:41'),(41,'Fernando Lima','1975-03-30','65217248009','fernando.lima@email.com',40000.00,'PE','81911112222',300,'Cliente Regular','2025-05-11 05:26:57');
+INSERT INTO `clientes` VALUES (57,'Carlos Silva','1985-03-12','42811229144','carlos.silva@example.com',85000.00,'Rua das Palmeiras, 120 - Campinas SP','11987654321',350,'Cliente Regular','2025-05-11 22:38:54'),(58,'Ana Souza','1992-08-23','30417062080','ana.souza@example.com',120000.00,'Av. Atlântica, 55 - Salvador BA','71991234567',350,'Cliente Regular','2025-05-11 22:38:54'),(59,'João Pedro','2000-01-01','10610345070','joao.pedro@example.com',40000.00,'Rua do Sol, 340 - Fortaleza CE','85999887766',150,'Mau Cliente','2025-05-11 22:38:54'),(60,'Fernanda Lima','1975-11-30','08254151070','fernanda.lima@example.com',160000.00,'Rua da Paz, 890 - Belo Horizonte MG','31988776655',500,'Bom Cliente','2025-05-11 22:38:54'),(61,'Bruno Castro','1988-05-09','39053354809','bruno.castro@example.com',65000.00,'Rua das Hortênsias, 99 - Curitiba PR','41997766554',350,'Cliente Regular','2025-05-11 22:38:54'),(62,'Juliana Alves','1997-06-18','01489666070','juliana.alves@example.com',52000.00,'Rua Dom Pedro, 10 - Porto Alegre RS','51981234567',250,'Mau Cliente','2025-05-11 22:38:54'),(63,'Marcos Dias','1980-10-22','06806449090','marcos.dias@example.com',135000.00,'Av. Principal, 444 - João Pessoa PB','83991112233',500,'Bom Cliente','2025-05-11 22:38:54'),(64,'Patrícia Gomes','1994-04-14','22645406080','patricia.gomes@example.com',72000.00,'Rua Nova, 88 - Recife PE','81996655443',350,'Cliente Regular','2025-05-11 22:38:54'),(65,'Lucas Ferreira','2002-02-02','50344230030','lucas.ferreira@example.com',35000.00,'Rua São João, 300 - Maceió AL','82992233445',150,'Mau Cliente','2025-05-11 22:38:54'),(66,'Bianca Melo','1983-12-20','35089097050','bianca.melo@example.com',98000.00,'Rua Bela Vista, 777 - Brasília DF','61991234567',350,'Cliente Regular','2025-05-11 22:38:54');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-11  5:32:58
+-- Dump completed on 2025-05-11 22:40:58

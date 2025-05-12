@@ -211,7 +211,7 @@ public class ClientServiceTest
             DataNascimento = dataNascimento,
             Cpf = cpf,
             Email = $"{nome.ToLower()}@email.com",
-            Estado = "SP",
+            Endereco = "SP",
             Telefone = "11999999999",
             RendimentoAnual = rendimento
         };

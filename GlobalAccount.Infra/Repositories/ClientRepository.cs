@@ -32,9 +32,9 @@ namespace GlobalAccount.Infra.Repositories
 
                 const string query = @"
                 INSERT INTO Clientes 
-                    (Nome, DataNascimento, Cpf, Email, RendimentoAnual, Estado, Telefone, Score, Classificacao)
+                    (Nome, DataNascimento, Cpf, Email, RendimentoAnual, Endereco, Telefone, Score, Classificacao)
                 VALUES
-                    (@Nome, @DataNascimento, @Cpf, @Email, @RendimentoAnual, @Estado, @Telefone, @Score, @Classificacao)";
+                    (@Nome, @DataNascimento, @Cpf, @Email, @RendimentoAnual, @Endereco, @Telefone, @Score, @Classificacao)";
 
                 using var connection = new MySqlConnection(_connectionString);
                 using var command = new MySqlCommand(query, connection);
@@ -44,7 +44,7 @@ namespace GlobalAccount.Infra.Repositories
                 command.Parameters.AddWithValue("@Cpf", request.Cpf);
                 command.Parameters.AddWithValue("@Email", request.Email);
                 command.Parameters.AddWithValue("@RendimentoAnual", request.RendimentoAnual);
-                command.Parameters.AddWithValue("@Estado", request.Estado);
+                command.Parameters.AddWithValue("@Endereco", request.Endereco);
                 command.Parameters.AddWithValue("@Telefone", request.Telefone);
                 command.Parameters.AddWithValue("@Score", request.Score);
                 command.Parameters.AddWithValue("@Classificacao", request.Classificacao.Descricao());
@@ -99,7 +99,7 @@ namespace GlobalAccount.Infra.Repositories
                     DataNascimento = @DataNascimento,
                     Email = @Email,
                     RendimentoAnual = @RendimentoAnual,
-                    Estado = @Estado,
+                    Endereco = @Endereco,
                     Telefone = @Telefone,
                     Score = @Score,
                     Classificacao = @Classificacao
@@ -113,7 +113,7 @@ namespace GlobalAccount.Infra.Repositories
                 command.Parameters.AddWithValue("@Cpf", client.Cpf);
                 command.Parameters.AddWithValue("@Email", client.Email);
                 command.Parameters.AddWithValue("@RendimentoAnual", client.RendimentoAnual);
-                command.Parameters.AddWithValue("@Estado", client.Estado);
+                command.Parameters.AddWithValue("@Endereco", client.Endereco);
                 command.Parameters.AddWithValue("@Telefone", client.Telefone);
                 command.Parameters.AddWithValue("@Score", client.Score);
                 command.Parameters.AddWithValue("@Classificacao", client.Classificacao.Descricao());
@@ -153,7 +153,7 @@ namespace GlobalAccount.Infra.Repositories
                         cpf: reader["Cpf"].ToString(),
                         email: reader["Email"].ToString(),
                         rendimentoAnual: Convert.ToDecimal(reader["RendimentoAnual"]),
-                        estado: reader["Estado"].ToString(),
+                        endereco: reader["Endereco"].ToString(),
                         telefone: reader["Telefone"].ToString()
                     ));
                 }
@@ -193,7 +193,7 @@ namespace GlobalAccount.Infra.Repositories
                         cpf: reader["Cpf"].ToString(),
                         email: reader["Email"].ToString(),
                         rendimentoAnual: Convert.ToDecimal(reader["RendimentoAnual"]),
-                        estado: reader["Estado"].ToString(),
+                        endereco: reader["Endereco"].ToString(),
                         telefone: reader["Telefone"].ToString()
                     );
                 }

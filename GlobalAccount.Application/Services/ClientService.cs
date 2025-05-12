@@ -126,7 +126,7 @@ namespace GlobalAccount.Application.Services
                 cpf: request.Cpf,
                 email: request.Email,
                 rendimentoAnual: request.RendimentoAnual,
-                estado: request.Estado,
+                endereco: request.Endereco,
                 telefone: request.Telefone
             );
         }
